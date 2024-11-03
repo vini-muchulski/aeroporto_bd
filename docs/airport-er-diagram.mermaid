@@ -1,0 +1,63 @@
+erDiagram
+    PASSAGEIRO ||--o{ BILHETE_VOO : compra
+    PASSAGEIRO ||--o{ CONTROLE_SEGURANCA : "passa por"
+    PASSAGEIRO ||--o{ AREA_BAGAGEM : despacha
+    BILHETE_VOO }|--|| VOO : "relaciona-se com"
+    VOO }|--|| AERONAVE : "é operado por"
+    VOO }|--|| PORTAO_EMBARQUE : usa
+    VOO }|--|| COMPANHIA_AEREA : "é operado por"
+    VOO ||--o{ AREA_BAGAGEM : "está associada a"
+    FUNCIONARIO }o--o{ SERVICOS_AEROPORTUARIOS : realiza
+
+    PASSAGEIRO {
+        int codigo_passageiro PK
+        string nome
+        string documento
+        string contato
+    }
+    VOO {
+        int numero_voo PK
+        string origem
+        string destino
+        datetime horario_partida
+        datetime horario_chegada
+    }
+    AERONAVE {
+        int codigo_aeronave PK
+        string modelo
+        int capacidade
+    }
+    COMPANHIA_AEREA {
+        int codigo_companhia PK
+        string nome
+        string pais
+    }
+    PORTAO_EMBARQUE {
+        int codigo_portao PK
+        string localizacao
+        string status
+    }
+    BILHETE_VOO {
+        int numero_bilhete PK
+        string classe
+        string status
+    }
+    FUNCIONARIO {
+        int codigo_funcionario PK
+        string nome
+        string cargo
+        string setor
+    }
+    AREA_BAGAGEM {
+        int codigo_bagagem PK
+        string status
+    }
+    SERVICOS_AEROPORTUARIOS {
+        int codigo_servico PK
+        string descricao
+    }
+    CONTROLE_SEGURANCA {
+        int codigo_controle PK
+        string inspecao
+        string status
+    }
