@@ -1,0 +1,145 @@
+/* modelo_LogicoV2: */
+
+CREATE TABLE Passageiro (
+    codigo_passageiro INTEGER PRIMARY KEY,
+    nome VARCHAR,
+    documento VARCHAR,
+    contato INTEGER,
+    ControleSeguranca BOOLEAN
+);
+
+CREATE TABLE Bilhete_Voo (
+    numero_bilhete INTEGER PRIMARY KEY,
+    classe VARCHAR,
+    nome_passageiro VARCHAR,
+    status VARCHAR,
+    fk_Passageiro_codigo_passageiro INTEGER,
+    fk_Voo_numero_voo INTEGER
+);
+
+CREATE TABLE Voo (
+    numero_voo INTEGER PRIMARY KEY,
+    horario_chegada VARCHAR,
+    horario_partida VARCHAR,
+    fk_Area_Bagagem_codigo_bagagem INTEGER,
+    fk_Aeronave_prefixo_aeronave VARCHAR,
+    fk_Destinos_numero_destino INTEGER
+);
+
+CREATE TABLE Aeronave (
+    prefixo_aeronave VARCHAR PRIMARY KEY,
+    modelo VARCHAR,
+    capacidade INTEGER,
+    fk_Empresa_Aerea_cod_empresa VARCHAR
+);
+
+CREATE TABLE Portao_Embarque (
+    codigo_portao VARCHAR PRIMARY KEY,
+    localizacao VARCHAR,
+    status VARCHAR
+);
+
+CREATE TABLE Area_Bagagem (
+    codigo_bagagem INTEGER PRIMARY KEY,
+    status VARCHAR
+);
+
+CREATE TABLE Tripulantes (
+    id_funcionario INTEGER PRIMARY KEY,
+    nome VARCHAR,
+    cargo VARCHAR,
+    setor VARCHAR
+);
+
+CREATE TABLE Destinos (
+    numero_destino INTEGER PRIMARY KEY,
+    Origem VARCHAR,
+    Destino VARCHAR
+);
+
+CREATE TABLE Empresa_Aerea (
+    Nome VARCHAR,
+    cod_empresa VARCHAR PRIMARY KEY,
+    Pais VARCHAR
+);
+
+CREATE TABLE Manutencao (
+    ID_Manutencao INTEGER PRIMARY KEY,
+    Data VARCHAR,
+    Tipo VARCHAR
+);
+
+CREATE TABLE usa (
+    fk_Voo_numero_voo INTEGER,
+    fk_Portao_Embarque_codigo_portao VARCHAR
+);
+
+CREATE TABLE Operaciona (
+    fk_Tripulantes_id_funcionario INTEGER,
+    fk_Voo_numero_voo INTEGER
+);
+
+CREATE TABLE Operaciona (
+    fk_Manutencao_ID_Manutencao INTEGER,
+    fk_Aeronave_prefixo_aeronave VARCHAR
+);
+ 
+ALTER TABLE Bilhete_Voo ADD CONSTRAINT FK_Bilhete_Voo_2
+    FOREIGN KEY (fk_Passageiro_codigo_passageiro)
+    REFERENCES Passageiro (codigo_passageiro)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Bilhete_Voo ADD CONSTRAINT FK_Bilhete_Voo_3
+    FOREIGN KEY (fk_Voo_numero_voo)
+    REFERENCES Voo (numero_voo)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Voo ADD CONSTRAINT FK_Voo_2
+    FOREIGN KEY (fk_Area_Bagagem_codigo_bagagem)
+    REFERENCES Area_Bagagem (codigo_bagagem)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Voo ADD CONSTRAINT FK_Voo_3
+    FOREIGN KEY (fk_Aeronave_prefixo_aeronave)
+    REFERENCES Aeronave (prefixo_aeronave)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Voo ADD CONSTRAINT FK_Voo_4
+    FOREIGN KEY (fk_Destinos_numero_destino)
+    REFERENCES Destinos (numero_destino)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Aeronave ADD CONSTRAINT FK_Aeronave_2
+    FOREIGN KEY (fk_Empresa_Aerea_cod_empresa)
+    REFERENCES Empresa_Aerea (cod_empresa)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE usa ADD CONSTRAINT FK_usa_1
+    FOREIGN KEY (fk_Voo_numero_voo)
+    REFERENCES Voo (numero_voo)
+    ON DELETE SET NULL;
+ 
+ALTER TABLE usa ADD CONSTRAINT FK_usa_2
+    FOREIGN KEY (fk_Portao_Embarque_codigo_portao)
+    REFERENCES Portao_Embarque (codigo_portao)
+    ON DELETE SET NULL;
+ 
+ALTER TABLE Operaciona ADD CONSTRAINT FK_Operaciona_1
+    FOREIGN KEY (fk_Tripulantes_id_funcionario)
+    REFERENCES Tripulantes (id_funcionario)
+    ON DELETE SET NULL;
+ 
+ALTER TABLE Operaciona ADD CONSTRAINT FK_Operaciona_2
+    FOREIGN KEY (fk_Voo_numero_voo)
+    REFERENCES Voo (numero_voo)
+    ON DELETE SET NULL;
+ 
+ALTER TABLE Operaciona ADD CONSTRAINT FK_Operaciona_1
+    FOREIGN KEY (fk_Manutencao_ID_Manutencao)
+    REFERENCES Manutencao (ID_Manutencao)
+    ON DELETE SET NULL;
+ 
+ALTER TABLE Operaciona ADD CONSTRAINT FK_Operaciona_2
+    FOREIGN KEY (fk_Aeronave_prefixo_aeronave)
+    REFERENCES Aeronave (prefixo_aeronave)
+    ON DELETE SET NULL;
