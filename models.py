@@ -140,6 +140,12 @@ def create_database():
     print("Banco de dados criado com sucesso.")
     return engine
 
+def drop_tables():
+    engine = create_engine('sqlite:///aeroporto.db')
+    Base.metadata.drop_all(engine)
+    print("Todas as tabelas foram eliminadas com sucesso.")
+
+
 def get_session(engine):
     Session = sessionmaker(bind=engine)
     return Session()

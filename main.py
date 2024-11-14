@@ -1,14 +1,15 @@
-from crud_operations import criar_passageiro, ler_passageiro, atualizar_passageiro, deletar_passageiro
+from crud_operations import *
 
-# Criar um novo passageiro
-criar_passageiro(2, "Maria Souza", "987654321", 888888888, False)
+def main():
+    # Exemplo de uso das funções CRUD
+    criar_passageiro(1, "João Silva", "123456789", 999999999, True)
+    passageiro = ler_passageiro(1)
+    if passageiro:
+        print(f"Passageiro: {passageiro.nome}, Documento: {passageiro.documento}")
+    else:
+        print("Passageiro não encontrado.")
 
-# Ler informações do passageiro
-passageiro = ler_passageiro(2)
-print(f"Nome: {passageiro.nome}, Documento: {passageiro.documento}")
+    # ... restante da lógica da aplicação ...
 
-# Atualizar informações do passageiro
-atualizar_passageiro(2, contato=777777777)
-
-# Deletar o passageiro
-deletar_passageiro(2)
+if __name__ == "__main__":
+    main()
