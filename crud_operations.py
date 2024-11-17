@@ -1,7 +1,10 @@
-from models import (
+from models import * 
+"""
+(
     get_session, Passageiro, BilheteVoo, Voo, Aeronave,
     EmpresaAerea, Destinos, AreaBagagem, PortaoEmbarque, Tripulante, Manutencao
 )
+"""
 from sqlalchemy import create_engine
 
 # Configuração da sessão
@@ -406,3 +409,45 @@ def deletar_manutencao(ID_Manutencao):
         print(f"Manutenção {ID_Manutencao} deletada com sucesso.")
     else:
         print(f"Manutenção {ID_Manutencao} não encontrada.")
+
+
+
+def ler_todos_passageiros():
+    passageiros = session.query(Passageiro).all()
+    return passageiros
+
+def ler_todos_bilhetes_voo():
+    bilhetes = session.query(BilheteVoo).all()
+    return bilhetes
+
+def ler_todos_voos():
+    voos = session.query(Voo).all()
+    return voos
+
+def ler_todas_aeronaves():
+    aeronaves = session.query(Aeronave).all()
+    return aeronaves
+
+def ler_todas_empresas_aereas():
+    empresas = session.query(EmpresaAerea).all()
+    return empresas
+
+def ler_todos_destinos():
+    destinos = session.query(Destinos).all()
+    return destinos
+
+def ler_todas_areas_bagagem():
+    areas = session.query(AreaBagagem).all()
+    return areas
+
+def ler_todos_portoes_embarque():
+    portoes = session.query(PortaoEmbarque).all()
+    return portoes
+
+def ler_todos_tripulantes():
+    tripulantes = session.query(Tripulante).all()
+    return tripulantes
+
+def ler_todas_manutencoes():
+    manutencoes = session.query(Manutencao).all()
+    return manutencoes
