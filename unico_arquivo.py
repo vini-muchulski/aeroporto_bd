@@ -1,6 +1,17 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, Table
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 
+"""
+pip install psycopg2
+
+Certifique-se de que o banco aeroporto já foi criado antes de conceder os privilégios:
+CREATE DATABASE aeroporto;
+
+
+CREATE USER vini WITH PASSWORD '123';
+GRANT ALL PRIVILEGES ON DATABASE aeroporto TO vini;
+
+"""
 Base = declarative_base()
 
 # Definição das tabelas e modelos
@@ -493,15 +504,20 @@ def atualizar_valor_especifico():
 
 # Configuração do banco de dados
 def create_database():
-    engine = create_engine('sqlite:///aeroporto.db')
+    engine = create_engine('postgresql+psycopg2://vini:123@localhost:5432/aeroporto')
+
     Base.metadata.create_all(engine)
     print("Banco de dados criado com sucesso.")
     return engine
 
 def drop_tables():
-    engine = create_engine('sqlite:///aeroporto.db')
-    Base.metadata.drop_all(engine)
-    print("Todas as tabelas foram eliminadas com sucesso.")
+    engine = create_engine('postgresql+psycopg2://vini:123@localhost:5432/aeroporto') #, echo=True
+    print("Tabelas disponíveis:", Base.metadata.tables.keys())  # Debug print
+    try:
+        Base.metadata.drop_all(engine)
+        print("Todas as tabelas foram eliminadas com sucesso.")
+    except Exception as e:
+        print("Erro ao dropar tabelas:", e)
 
 
 def get_session(engine):
@@ -509,15 +525,11 @@ def get_session(engine):
     return Session()
 
 # Configuração da sessão
-engine = create_engine('sqlite:///aeroporto.db')
+engine = create_engine('postgresql+psycopg2://vini:123@localhost:5432/aeroporto')
+
 session = get_session(engine)
 
 
-
-
-
-
- 
 if __name__ == "__main__":
     menu_principal()
 
