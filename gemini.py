@@ -24,8 +24,8 @@ client = OpenAI(
 
 
 response = client.chat.completions.create(
-    #model="gemini-1.5-flash-002",
-    model="gemini-1.5-pro-002",
+    model="gemini-1.5-flash-002",
+    #model="gemini-1.5-pro-002",
     n=1,
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
