@@ -433,8 +433,7 @@ def consulta_01():
 
     for numero_voo, num_passageiros in resultado:
         print(f"Voo {numero_voo} tem {num_passageiros} passageiros.")
-        
-    #gemini_interpretacao(resultado)
+
     # Gerar gráfico
     voos = [r[0] for r in resultado]
     passageiros = [r[1] for r in resultado]
@@ -488,7 +487,6 @@ def consulta_03():
     for destino, num_voos in resultado:
         print(f"Destino: {destino}, Número de Voos: {num_voos}")
 
-    gemini_interpretacao(resultado)
     # Gerar gráfico
     destinos = [r[0] for r in resultado]
     num_voos = [r[1] for r in resultado]
@@ -502,52 +500,11 @@ def consulta_03():
 
 
 def consulta_extra():
-    print("\n--- CONSULTA EXTRA: Número de Voos por Portão de Embarque Disponível e Capacidade Média das Aeronaves ---")
-
-    resultado = session.query(
-        PortaoEmbarque.codigo_portao,
-        func.count(Voo.numero_voo).label('num_voos'),
-        func.avg(Aeronave.capacidade).label('capacidade_media')
-    ).join(
-        usa_table, PortaoEmbarque.codigo_portao == usa_table.c.fk_Portao_Embarque_codigo_portao
-    ).join(
-        Voo, Voo.numero_voo == usa_table.c.fk_Voo_numero_voo
-    ).join(
-        Aeronave, Voo.fk_Aeronave_prefixo_aeronave == Aeronave.prefixo_aeronave
-    ).filter(
-        PortaoEmbarque.status == "Disponível"
-    ).group_by(
-        PortaoEmbarque.codigo_portao
-    ).all()
-
-    for codigo_portao, num_voos, capacidade_media in resultado:
-        print(f"Portão: {codigo_portao}, Número de Voos: {num_voos}, Capacidade Média das Aeronaves: {capacidade_media:.2f}")
-
-    gemini_interpretacao(resultado)
-    # Gerar gráfico
-    portoes = [r[0] for r in resultado]
-    num_voos = [r[1] for r in resultado]
-    capacidades = [r[2] for r in resultado]
-
-    fig, ax1 = plt.subplots()
-
-    color = 'tab:blue'
-    ax1.set_xlabel('Código do Portão')
-    ax1.set_ylabel('Número de Voos', color=color)
-    ax1.bar(portoes, num_voos, color=color, alpha=0.6)
-    ax1.tick_params(axis='y', labelcolor=color)
-
-    ax2 = ax1.twinx()  # Instancia um segundo eixo que compartilha o mesmo eixo x
-
-    color = 'tab:red'
-    ax2.set_ylabel('Capacidade Média', color=color)
-    ax2.plot(portoes, capacidades, color=color, marker='o')
-    ax2.tick_params(axis='y', labelcolor=color)
-
-    plt.title('Número de Voos e Capacidade Média por Portão de Embarque Disponível')
-    plt.tight_layout()
-    plt.show()
-
+    print("\n--- CONSULTA EXTRA: Portões de Embarque Disponíveis e Voos Associados ---")
+    portoes = session.query(PortaoEmbarque).filter(PortaoEmbarque.status == "Disponível").all()
+    for portao in portoes:
+        voos = ', '.join([str(voo.numero_voo) for voo in portao.voos])
+        print(f"Código do Portão: {portao.codigo_portao}, Voos: {voos if voos else 'Nenhum'}")
 
 
 def atualizar_valor_especifico():
