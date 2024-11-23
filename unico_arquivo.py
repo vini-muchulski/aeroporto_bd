@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, Table
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
+import matplotlib.pyplot as plt
 
 """
 pip install psycopg2
@@ -393,26 +394,82 @@ def deletar_valores_teste():
     print("Valores deletados com sucesso.")
 
 def consulta_01():
-    print("\n--- CONSULTA 01: Lista de passageiros com bilhetes confirmados ---")
-    resultado = session.query(Passageiro).join(BilheteVoo).filter(BilheteVoo.status == "Confirmado").all()
-    for passageiro in resultado:
-        print(f"Código: {passageiro.codigo_passageiro}, Nome: {passageiro.nome}")
+    print("\n--- CONSULTA 01: Número de Passageiros por Voo ---")
+    from sqlalchemy import func
+
+    resultado = session.query(
+        Voo.numero_voo,
+        func.count(Passageiro.codigo_passageiro).label('num_passageiros')
+    ).join(BilheteVoo, Voo.numero_voo == BilheteVoo.fk_Voo_numero_voo)\
+     .join(Passageiro, BilheteVoo.fk_Passageiro_codigo_passageiro == Passageiro.codigo_passageiro)\
+     .group_by(Voo.numero_voo)\
+     .all()
+
+    for numero_voo, num_passageiros in resultado:
+        print(f"Voo {numero_voo} tem {num_passageiros} passageiros.")
+
+    # Gerar gráfico
+    voos = [r[0] for r in resultado]
+    passageiros = [r[1] for r in resultado]
+    plt.bar(voos, passageiros, color='blue')
+    plt.xlabel('Número do Voo')
+    plt.ylabel('Número de Passageiros')
+    plt.title('Número de Passageiros por Voo')
+    plt.show()
+
 
 def consulta_02():
-    print("\n--- CONSULTA 02: Lista de Empresas Aéreas e suas Aeronaves ---")
-    resultado = session.query(EmpresaAerea.Nome, Aeronave.prefixo_aeronave, Aeronave.modelo).\
-        join(Aeronave, EmpresaAerea.cod_empresa == Aeronave.fk_Empresa_Aerea_cod_empresa).\
-        all()
-    for nome_empresa, prefixo_aeronave, modelo in resultado:
-        print(f"Empresa: {nome_empresa}, Aeronave: {prefixo_aeronave}, Modelo: {modelo}")
+    print("\n--- CONSULTA 02: Capacidade Média das Aeronaves por Empresa Aérea ---")
+    from sqlalchemy import func
+
+    resultado = session.query(
+        EmpresaAerea.Nome,
+        func.avg(Aeronave.capacidade).label('capacidade_media')
+    ).join(Aeronave, EmpresaAerea.cod_empresa == Aeronave.fk_Empresa_Aerea_cod_empresa)\
+     .group_by(EmpresaAerea.Nome)\
+     .all()
+
+    for nome_empresa, capacidade_media in resultado:
+        print(f"Empresa: {nome_empresa}, Capacidade Média: {capacidade_media:.2f}")
+
+    # Gerar gráfico
+    empresas = [r[0] for r in resultado]
+    capacidades = [r[1] for r in resultado]
+    plt.bar(empresas, capacidades, color='green')
+    plt.xlabel('Empresa Aérea')
+    plt.ylabel('Capacidade Média')
+    plt.title('Capacidade Média das Aeronaves por Empresa Aérea')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
 
 
 def consulta_03():
-    print("\n--- CONSULTA 03: Lista de Tripulantes e seus Voos ---")
-    resultado = session.query(Tripulante).all()
-    for tripulante in resultado:
-        voos = ', '.join([str(voo.numero_voo) for voo in tripulante.voos])
-        print(f"ID: {tripulante.id_funcionario}, Nome: {tripulante.nome}, Voos: {voos if voos else 'Nenhum'}")
+    print("\n--- CONSULTA 03: Número Total de Voos por Destino ---")
+    from sqlalchemy import func
+
+    resultado = session.query(
+        Destinos.Destino,
+        func.count(Voo.numero_voo).label('num_voos')
+    ).join(Voo, Voo.fk_Destinos_numero_destino == Destinos.numero_destino)\
+     .group_by(Destinos.Destino)\
+     .all()
+
+    for destino, num_voos in resultado:
+        print(f"Destino: {destino}, Número de Voos: {num_voos}")
+
+    # Gerar gráfico
+    destinos = [r[0] for r in resultado]
+    num_voos = [r[1] for r in resultado]
+    plt.bar(destinos, num_voos, color='orange')
+    plt.xlabel('Destino')
+    plt.ylabel('Número de Voos')
+    plt.title('Número Total de Voos por Destino')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
 
 def consulta_extra():
     print("\n--- CONSULTA EXTRA: Portões de Embarque Disponíveis e Voos Associados ---")

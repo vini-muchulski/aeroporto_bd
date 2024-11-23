@@ -1,4 +1,4 @@
-from crud_operations import *
+from legado.crud_operations import *
 
 def main():
     

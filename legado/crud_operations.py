@@ -1,4 +1,4 @@
-from models import * 
+from legado.models import * 
 """
 (
     get_session, Passageiro, BilheteVoo, Voo, Aeronave,

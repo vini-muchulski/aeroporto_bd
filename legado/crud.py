@@ -1,6 +1,6 @@
 # crud_operations.py
 
-from models import Session, Passageiro, BilheteVoo, Compra, Voo, RelacionaSe
+from legado.models import Session, Passageiro, BilheteVoo, Compra, Voo, RelacionaSe
 from sqlalchemy.orm import sessionmaker
 
 # Criar uma sessão

@@ -1,6 +1,6 @@
 # print_database.py
 
-from models import Session, Passageiro, BilheteVoo, Voo, Aeronave, PortaoEmbarque, CompanhiaAerea, AreaBagagem, ControleSeguranca, Funcionario, ServicosAeroportuarios
+from legado.models import Session, Passageiro, BilheteVoo, Voo, Aeronave, PortaoEmbarque, CompanhiaAerea, AreaBagagem, ControleSeguranca, Funcionario, ServicosAeroportuarios
 
 # Criar uma sessão
 session = Session()
