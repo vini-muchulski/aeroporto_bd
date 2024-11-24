@@ -424,6 +424,80 @@ def deletar_valores_teste():
     deletar_registro(session, Voo, id_=202)
     print("Valores deletados com sucesso.")
 
+def atualizar_valor_especifico():
+    print("\n--- Atualizar valor específico ---")
+    print("Selecione a tabela:")
+    print("1. Passageiro")
+    print("2. BilheteVoo")
+    print("3. Voo")
+    print("4. Aeronave")
+    print("5. EmpresaAerea")
+    print("6. Destinos")
+    print("7. Área de Bagagem")
+    print("8. Portão de Embarque")
+    print("9. Tripulante")
+    print("10. Manutenção")
+    tabela_opcao = input("Opção: ")
+
+    if tabela_opcao == '1':
+        model_class = Passageiro
+    elif tabela_opcao == '2':
+        model_class = BilheteVoo
+    elif tabela_opcao == '3':
+        model_class = Voo
+    elif tabela_opcao == '4':
+        model_class = Aeronave
+    elif tabela_opcao == '5':
+        model_class = EmpresaAerea
+    elif tabela_opcao == '6':
+        model_class = Destinos
+    elif tabela_opcao == '7':
+        model_class = AreaBagagem
+    elif tabela_opcao == '8':
+        model_class = PortaoEmbarque
+    elif tabela_opcao == '9':
+        model_class = Tripulante
+    elif tabela_opcao == '10':
+        model_class = Manutencao
+    else:
+        print("Opção inválida.")
+        return
+
+    chave_primaria = obter_nome_chave_primaria(model_class)
+    id_ = input(f"Digite o valor da chave primária ({chave_primaria}): ")
+
+    # Converter o ID para o tipo correto (inteiro ou string)
+    coluna_chave = getattr(model_class, chave_primaria).property.columns[0]
+    if isinstance(coluna_chave.type, Integer):
+        id_ = int(id_)
+
+    registro = ler_registro(session, model_class, id_)
+    if registro:
+        print("Registro atual:")
+        atributos = vars(registro)
+        atributos_limpos = {chave: valor for chave, valor in atributos.items() if not chave.startswith('_')}
+        print(atributos_limpos)
+        print("\nDigite os novos valores (deixe em branco para manter o valor atual):")
+        dados = {}
+        for atributo in atributos_limpos.keys():
+            if atributo == chave_primaria:
+                continue  # Não atualizar a chave primária
+            valor_atual = getattr(registro, atributo)
+            valor = input(f"{atributo} [{valor_atual}]: ")
+            if valor:
+                # Detectar o tipo da coluna e converter o valor adequadamente
+                coluna = getattr(model_class, atributo).property.columns[0]
+                if isinstance(coluna.type, Integer):
+                    valor = int(valor)
+                elif isinstance(coluna.type, Boolean):
+                    valor = valor.lower() in ('true', '1', 'yes', 'sim')
+                # Caso seja String, manter o valor como está
+                dados[atributo] = valor
+        atualizar_registro(session, model_class, id_, **dados)
+    else:
+        print(f"{model_class.__name__} com {chave_primaria}={id_} não encontrado.")
+
+
 def consulta_01():
     print("\n--- CONSULTA 01: Número de Passageiros por Voo ---")
     from sqlalchemy import func
@@ -528,7 +602,8 @@ def consulta_extra():
     for codigo_portao, num_voos, capacidade_media in resultado:
         print(f"Portão: {codigo_portao}, Número de Voos: {num_voos}, Capacidade Média das Aeronaves: {capacidade_media:.2f}")
 
-    gemini_interpretacao(resultado)
+    local_llm_interpretacao(resultado)
+    #gemini_interpretacao(resultado)
     # Gerar gráfico
     portoes = [r[0] for r in resultado]
     num_voos = [r[1] for r in resultado]
@@ -555,119 +630,27 @@ def consulta_extra():
 
 
 
-def atualizar_valor_especifico():
-    print("\n--- Atualizar valor específico ---")
-    print("Selecione a tabela:")
-    print("1. Passageiro")
-    print("2. BilheteVoo")
-    print("3. Voo")
-    print("4. Aeronave")
-    print("5. EmpresaAerea")
-    print("6. Destinos")
-    print("7. Área de Bagagem")
-    print("8. Portão de Embarque")
-    print("9. Tripulante")
-    print("10. Manutenção")
-    tabela_opcao = input("Opção: ")
-
-    if tabela_opcao == '1':
-        model_class = Passageiro
-    elif tabela_opcao == '2':
-        model_class = BilheteVoo
-    elif tabela_opcao == '3':
-        model_class = Voo
-    elif tabela_opcao == '4':
-        model_class = Aeronave
-    elif tabela_opcao == '5':
-        model_class = EmpresaAerea
-    elif tabela_opcao == '6':
-        model_class = Destinos
-    elif tabela_opcao == '7':
-        model_class = AreaBagagem
-    elif tabela_opcao == '8':
-        model_class = PortaoEmbarque
-    elif tabela_opcao == '9':
-        model_class = Tripulante
-    elif tabela_opcao == '10':
-        model_class = Manutencao
-    else:
-        print("Opção inválida.")
-        return
-
-    chave_primaria = obter_nome_chave_primaria(model_class)
-    id_ = input(f"Digite o valor da chave primária ({chave_primaria}): ")
-
-    # Converter o ID para o tipo correto (inteiro ou string)
-    coluna_chave = getattr(model_class, chave_primaria).property.columns[0]
-    if isinstance(coluna_chave.type, Integer):
-        id_ = int(id_)
-
-    registro = ler_registro(session, model_class, id_)
-    if registro:
-        print("Registro atual:")
-        atributos = vars(registro)
-        atributos_limpos = {chave: valor for chave, valor in atributos.items() if not chave.startswith('_')}
-        print(atributos_limpos)
-        print("\nDigite os novos valores (deixe em branco para manter o valor atual):")
-        dados = {}
-        for atributo in atributos_limpos.keys():
-            if atributo == chave_primaria:
-                continue  # Não atualizar a chave primária
-            valor_atual = getattr(registro, atributo)
-            valor = input(f"{atributo} [{valor_atual}]: ")
-            if valor:
-                # Detectar o tipo da coluna e converter o valor adequadamente
-                coluna = getattr(model_class, atributo).property.columns[0]
-                if isinstance(coluna.type, Integer):
-                    valor = int(valor)
-                elif isinstance(coluna.type, Boolean):
-                    valor = valor.lower() in ('true', '1', 'yes', 'sim')
-                # Caso seja String, manter o valor como está
-                dados[atributo] = valor
-        atualizar_registro(session, model_class, id_, **dados)
-    else:
-        print(f"{model_class.__name__} com {chave_primaria}={id_} não encontrado.")
 
 
-
-
-
-
-
-
-# Configuração do banco de dados
-def create_database():
-    engine = create_engine('postgresql+psycopg2://vini:123@localhost:5432/aeroporto')
-
-    Base.metadata.create_all(engine)
-    print("Banco de dados criado com sucesso.")
-    return engine
-
-
-
-def limpar_dados():
-    print("\n--- Limpando todos os dados do banco de dados ---")
-    try:
-        # Truncar tabelas de associação primeiro
-        session.execute(text('TRUNCATE TABLE operaciona_table, usa_table, operaciona_manutencao_table RESTART IDENTITY CASCADE;'))
-        # Truncar tabelas principais
-        session.execute(text('TRUNCATE TABLE passageiro, bilhete_voo, voo, aeronave, empresa_aerea, destinos, area_bagagem, portao_embarque, tripulantes, manutencao RESTART IDENTITY CASCADE;'))
-        session.commit()
-        print("Todos os dados foram removidos com sucesso.")
-    except Exception as e:
-        session.rollback()
-        print("Erro ao limpar os dados:", e)
-
-def drop_tables():
-    print("\n--- Eliminando todas as tabelas do banco de dados ---")
-    try:
-        session.commit()
-        Base.metadata.drop_all(bind=engine)
-        session.commit()
-        print("Todas as tabelas foram eliminadas com sucesso.")
-    except Exception as e:
-        session.rollback()
-        print("Erro ao eliminar as tabelas:", e)
+def local_llm_interpretacao(user_message):
+    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    messages = [
+        {"role": "system", "content": (
+                "Você é um assistente especializado em interpretar consultas de banco de dados. "
+                "O banco de dados 'aeroporto' contém informações sobre voos, passageiros, aeronaves, empresas aéreas, etc. "
+                "As tabelas incluem: passageiro, bilhete_voo, voo, aeronave, empresa_aerea, portao_embarque, area_bagagem, tripulantes, destinos e manutencao. "
+                "Essas tabelas se relacionam por meio de chaves estrangeiras, como 'bilhete_voo' que se conecta com 'passageiro' e 'voo'. "
+                "Seu trabalho é fornecer explicações claras e úteis em português sobre consultas SQL e seus resultados, destacando insights acionáveis "
+                "que ajudem na tomada de decisões. Responda de forma concisa, clara e sem formatação especial."
+            )},
+        
+        {"role": "user", "content": user_message}
+    ]
+    return client.chat.completions.create(
+        model="model-identifier",
+        messages=messages,
+        temperature=0.7
+    ).choices[0].message.content
 
 def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
     
@@ -708,6 +691,44 @@ def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
     )
 
     print(response.choices[0].message.content)
+
+
+
+# Configuração do banco de dados
+def create_database():
+    engine = create_engine('postgresql+psycopg2://vini:123@localhost:5432/aeroporto')
+
+    Base.metadata.create_all(engine)
+    print("Banco de dados criado com sucesso.")
+    return engine
+
+
+
+def limpar_dados():
+    print("\n--- Limpando todos os dados do banco de dados ---")
+    try:
+        # Truncar tabelas de associação primeiro
+        session.execute(text('TRUNCATE TABLE operaciona_table, usa_table, operaciona_manutencao_table RESTART IDENTITY CASCADE;'))
+        # Truncar tabelas principais
+        session.execute(text('TRUNCATE TABLE passageiro, bilhete_voo, voo, aeronave, empresa_aerea, destinos, area_bagagem, portao_embarque, tripulantes, manutencao RESTART IDENTITY CASCADE;'))
+        session.commit()
+        print("Todos os dados foram removidos com sucesso.")
+    except Exception as e:
+        session.rollback()
+        print("Erro ao limpar os dados:", e)
+
+def drop_tables():
+    print("\n--- Eliminando todas as tabelas do banco de dados ---")
+    try:
+        session.commit()
+        Base.metadata.drop_all(bind=engine)
+        session.commit()
+        print("Todas as tabelas foram eliminadas com sucesso.")
+    except Exception as e:
+        session.rollback()
+        print("Erro ao eliminar as tabelas:", e)
+
+
 
 def get_session(engine):
     Session = sessionmaker(bind=engine)
