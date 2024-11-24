@@ -599,13 +599,24 @@ def consulta_extra():
         PortaoEmbarque.codigo_portao
     ).all()
 
-    for codigo_portao, num_voos, capacidade_media in resultado:
-        print(f"Portão: {codigo_portao}, Número de Voos: {num_voos}, Capacidade Média das Aeronaves: {capacidade_media:.2f}")
+    resultado_serializavel = [
+        {
+            "codigo_portao": row[0],
+            "num_voos": row[1],
+            "capacidade_media": float(row[2]) if row[2] is not None else None
+        }
+        for row in resultado
+    ]
 
-    local_llm_interpretacao(resultado)
+    for item in resultado_serializavel:
+        print(f"Portão: {item['codigo_portao']}, Número de Voos: {item['num_voos']}, Capacidade Média das Aeronaves: {item['capacidade_media']:.2f}")
+
+    # Passar o resultado serializável para o LLM
+
+    local_llm_interpretacao(json.dumps(resultado_serializavel))
     #gemini_interpretacao(resultado)
     # Gerar gráfico
-    portoes = [r[0] for r in resultado]
+    """portoes = [r[0] for r in resultado]
     num_voos = [r[1] for r in resultado]
     capacidades = [r[2] for r in resultado]
 
@@ -626,7 +637,7 @@ def consulta_extra():
 
     plt.title('Número de Voos e Capacidade Média por Portão de Embarque Disponível')
     plt.tight_layout()
-    plt.show()
+    plt.show()"""
 
 
 
@@ -646,11 +657,13 @@ def local_llm_interpretacao(user_message):
         
         {"role": "user", "content": user_message}
     ]
-    return client.chat.completions.create(
+    
+    print("\n")
+    print(client.chat.completions.create(
         model="model-identifier",
         messages=messages,
         temperature=0.7
-    ).choices[0].message.content
+    ).choices[0].message.content)
 
 def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
     
