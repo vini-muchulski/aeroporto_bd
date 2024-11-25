@@ -230,6 +230,13 @@ def carregar_dados_iniciais():
     criar_registro(session, Passageiro, codigo_passageiro=13, nome="Juliana Santos", documento="741852963", contato=111111111, ControleSeguranca=True)
     criar_registro(session, Passageiro, codigo_passageiro=14, nome="Fernando Lima", documento="258963147", contato=222222222, ControleSeguranca=False)
     criar_registro(session, Passageiro, codigo_passageiro=15, nome="Isabela Ferreira", documento="852369741", contato=333333333, ControleSeguranca=True)
+    criar_registro(session, Passageiro, codigo_passageiro=16, nome="Eduardo Lopes", documento="963852741", contato=444444444, ControleSeguranca=True)
+    criar_registro(session, Passageiro, codigo_passageiro=17, nome="Patrícia Lima", documento="147258369", contato=555555555, ControleSeguranca=False)
+    criar_registro(session, Passageiro, codigo_passageiro=18, nome="Felipe Andrade", documento="321654987", contato=666666666, ControleSeguranca=True)
+    criar_registro(session, Passageiro, codigo_passageiro=19, nome="Luciana Alves", documento="789123456", contato=777777777, ControleSeguranca=False)
+    criar_registro(session, Passageiro, codigo_passageiro=20, nome="Gustavo Barros", documento="456123789", contato=888888888, ControleSeguranca=True)
+    criar_registro(session, Passageiro, codigo_passageiro=21, nome="Larissa Costa", documento="951753258", contato=999999999, ControleSeguranca=True)
+    criar_registro(session, Passageiro, codigo_passageiro=22, nome="Victor Santos", documento="753951456", contato=222222222, ControleSeguranca=False)
     
     # Inserir dados na tabela EmpresaAerea
     criar_registro(session, EmpresaAerea, cod_empresa="AA", Nome="American Airlines", Pais="EUA")
@@ -238,9 +245,15 @@ def carregar_dados_iniciais():
     criar_registro(session, EmpresaAerea, cod_empresa="BA", Nome="British Airways", Pais="Reino Unido")
     criar_registro(session, EmpresaAerea, cod_empresa="DL", Nome="Delta Air Lines", Pais="EUA")
     criar_registro(session, EmpresaAerea, cod_empresa="AF", Nome="Air France", Pais="França")
+    criar_registro(session, EmpresaAerea, cod_empresa="LH", Nome="Lufthansa", Pais="Alemanha")
+    criar_registro(session, EmpresaAerea, cod_empresa="QF", Nome="Qantas Airways", Pais="Austrália")
+    criar_registro(session, EmpresaAerea, cod_empresa="AZ", Nome="Alitalia", Pais="Itália")
+    criar_registro(session, EmpresaAerea, cod_empresa="SA", Nome="South African Airways", Pais="África do Sul")
+    criar_registro(session, EmpresaAerea, cod_empresa="IB", Nome="Iberia", Pais="Espanha")
+
     
     
-    # Inserir dados na tabela Aeronave
+     #Inserir dados na tabela Aeronave
     criar_registro(session, Aeronave, prefixo_aeronave="AA-123", modelo="Boeing 737", capacidade=150, fk_Empresa_Aerea_cod_empresa="AA")
     criar_registro(session, Aeronave, prefixo_aeronave="TP-456", modelo="Airbus A320", capacidade=180, fk_Empresa_Aerea_cod_empresa="TP")
     criar_registro(session, Aeronave, prefixo_aeronave="AA-456", modelo="Boeing 747", capacidade=250, fk_Empresa_Aerea_cod_empresa="AA")
@@ -249,6 +262,17 @@ def carregar_dados_iniciais():
     criar_registro(session, Aeronave, prefixo_aeronave="BA-234", modelo="Airbus A350", capacidade=240, fk_Empresa_Aerea_cod_empresa="BA")
     criar_registro(session, Aeronave, prefixo_aeronave="DL-555", modelo="Airbus A220", capacidade=130, fk_Empresa_Aerea_cod_empresa="DL")
     criar_registro(session, Aeronave, prefixo_aeronave="AF-888", modelo="Boeing 777", capacidade=300, fk_Empresa_Aerea_cod_empresa="AF")
+    criar_registro(session, Aeronave, prefixo_aeronave="LH-100", modelo="Airbus A380", capacidade=850, fk_Empresa_Aerea_cod_empresa="LH")
+    criar_registro(session, Aeronave, prefixo_aeronave="QF-200", modelo="Boeing 787", capacidade=300, fk_Empresa_Aerea_cod_empresa="QF")
+    criar_registro(session, Aeronave, prefixo_aeronave="AZ-300", modelo="Airbus A319", capacidade=150, fk_Empresa_Aerea_cod_empresa="AZ")
+    criar_registro(session, Aeronave, prefixo_aeronave="SA-400", modelo="Boeing 747", capacidade=450, fk_Empresa_Aerea_cod_empresa="SA")
+    criar_registro(session, Aeronave, prefixo_aeronave="IB-500", modelo="Airbus A321", capacidade=200, fk_Empresa_Aerea_cod_empresa="IB")
+    criar_registro(session, Aeronave, prefixo_aeronave="LH-200", modelo="Airbus A380", capacidade=850, fk_Empresa_Aerea_cod_empresa="LH")
+    criar_registro(session, Aeronave, prefixo_aeronave="QF-300", modelo="Boeing 787", capacidade=300, fk_Empresa_Aerea_cod_empresa="QF")
+    criar_registro(session, Aeronave, prefixo_aeronave="AZ-400", modelo="Airbus A319", capacidade=150, fk_Empresa_Aerea_cod_empresa="AZ")
+    criar_registro(session, Aeronave, prefixo_aeronave="SA-500", modelo="Boeing 747", capacidade=450, fk_Empresa_Aerea_cod_empresa="SA")
+    criar_registro(session, Aeronave, prefixo_aeronave="IB-600", modelo="Airbus A321", capacidade=200, fk_Empresa_Aerea_cod_empresa="IB")
+
     
 
     # Inserir dados na tabela Destinos
@@ -259,6 +283,13 @@ def carregar_dados_iniciais():
     criar_registro(session, Destinos, numero_destino=5, Origem="Lisboa", Destino="Madrid")
     criar_registro(session, Destinos, numero_destino=6, Origem="Londres", Destino="Tóquio")
     criar_registro(session, Destinos, numero_destino=7, Origem="Roma", Destino="São Paulo")
+    criar_registro(session, Destinos, numero_destino=8, Origem="Los Angeles", Destino="Tóquio")
+    criar_registro(session, Destinos, numero_destino=9, Origem="São Paulo", Destino="Cidade do Cabo")
+    criar_registro(session, Destinos, numero_destino=10, Origem="Berlim", Destino="Paris")
+    criar_registro(session, Destinos, numero_destino=11, Origem="Lisboa", Destino="Dublin")
+    criar_registro(session, Destinos, numero_destino=12, Origem="Sydney", Destino="Londres")
+    criar_registro(session, Destinos, numero_destino=13, Origem="Nova York", Destino="Frankfurt")
+
 
     # Inserir dados na tabela AreaBagagem
     criar_registro(session, AreaBagagem, codigo_bagagem=3, status="Operacional")
@@ -267,6 +298,12 @@ def carregar_dados_iniciais():
     # Inserir dados na tabela AreaBagagem
     criar_registro(session, AreaBagagem, codigo_bagagem=1, status="Operacional")
     criar_registro(session, AreaBagagem, codigo_bagagem=2, status="Manutenção")
+    criar_registro(session, AreaBagagem, codigo_bagagem=5, status="Operacional")
+    criar_registro(session, AreaBagagem, codigo_bagagem=6, status="Manutenção")
+    criar_registro(session, AreaBagagem, codigo_bagagem=7, status="Operacional")
+    criar_registro(session, AreaBagagem, codigo_bagagem=8, status="Manutenção")
+    criar_registro(session, AreaBagagem, codigo_bagagem=9, status="Operacional")
+
 
     # Inserir dados na tabela Voo
     criar_registro(session, Voo, numero_voo=101, horario_chegada="12:00", horario_partida="08:00", fk_Area_Bagagem_codigo_bagagem=1, fk_Aeronave_prefixo_aeronave="AA-123", fk_Destinos_numero_destino=1)
@@ -276,7 +313,12 @@ def carregar_dados_iniciais():
     criar_registro(session, Voo, numero_voo=505, horario_chegada="11:00", horario_partida="07:00", fk_Area_Bagagem_codigo_bagagem=1, fk_Aeronave_prefixo_aeronave="EM-101", fk_Destinos_numero_destino=5)
     criar_registro(session, Voo, numero_voo=606, horario_chegada="06:00", horario_partida="22:00", fk_Area_Bagagem_codigo_bagagem=1, fk_Aeronave_prefixo_aeronave="DL-555", fk_Destinos_numero_destino=6)
     criar_registro(session, Voo, numero_voo=707, horario_chegada="10:00", horario_partida="02:00", fk_Area_Bagagem_codigo_bagagem=2, fk_Aeronave_prefixo_aeronave="AF-888", fk_Destinos_numero_destino=7)
-    
+    criar_registro(session, Voo, numero_voo=808, horario_chegada="09:00", horario_partida="05:00", fk_Area_Bagagem_codigo_bagagem=2, fk_Aeronave_prefixo_aeronave="LH-100", fk_Destinos_numero_destino=8)
+    criar_registro(session, Voo, numero_voo=909, horario_chegada="13:00", horario_partida="09:00", fk_Area_Bagagem_codigo_bagagem=1, fk_Aeronave_prefixo_aeronave="QF-200", fk_Destinos_numero_destino=9)
+    criar_registro(session, Voo, numero_voo=1010, horario_chegada="16:00", horario_partida="12:00", fk_Area_Bagagem_codigo_bagagem=2, fk_Aeronave_prefixo_aeronave="AZ-300", fk_Destinos_numero_destino=10)
+    criar_registro(session, Voo, numero_voo=1111, horario_chegada="19:00", horario_partida="15:00", fk_Area_Bagagem_codigo_bagagem=1, fk_Aeronave_prefixo_aeronave="SA-400", fk_Destinos_numero_destino=11)
+    criar_registro(session, Voo, numero_voo=1212, horario_chegada="22:00", horario_partida="18:00", fk_Area_Bagagem_codigo_bagagem=2, fk_Aeronave_prefixo_aeronave="IB-500", fk_Destinos_numero_destino=12)
+   
     
     # Inserir dados na tabela BilheteVoo
     criar_registro(session, BilheteVoo, numero_bilhete=1001, classe="Economica", nome_passageiro="João Silva", status="Confirmado", fk_Passageiro_codigo_passageiro=1, fk_Voo_numero_voo=101)
@@ -289,13 +331,26 @@ def carregar_dados_iniciais():
     criar_registro(session, BilheteVoo, numero_bilhete=1007, classe="Economica", nome_passageiro="Ricardo Almeida", status="Confirmado", fk_Passageiro_codigo_passageiro=7, fk_Voo_numero_voo=505)
     criar_registro(session, BilheteVoo, numero_bilhete=1008, classe="Primeira Classe", nome_passageiro="Juliana Santos", status="Confirmado", fk_Passageiro_codigo_passageiro=13, fk_Voo_numero_voo=606)
     criar_registro(session, BilheteVoo, numero_bilhete=1009, classe="Executiva", nome_passageiro="Fernando Lima", status="Pendente", fk_Passageiro_codigo_passageiro=14, fk_Voo_numero_voo=707)
-    
+    criar_registro(session, BilheteVoo, numero_bilhete=1010, classe="Economica", nome_passageiro="Eduardo Lopes", status="Confirmado", fk_Passageiro_codigo_passageiro=16, fk_Voo_numero_voo=808)
+    criar_registro(session, BilheteVoo, numero_bilhete=1011, classe="Executiva", nome_passageiro="Patrícia Lima", status="Confirmado", fk_Passageiro_codigo_passageiro=17, fk_Voo_numero_voo=909)
+    criar_registro(session, BilheteVoo, numero_bilhete=1012, classe="Primeira Classe", nome_passageiro="Felipe Andrade", status="Pendente", fk_Passageiro_codigo_passageiro=18, fk_Voo_numero_voo=1010)
+    criar_registro(session, BilheteVoo, numero_bilhete=1013, classe="Economica", nome_passageiro="Luciana Alves", status="Confirmado", fk_Passageiro_codigo_passageiro=19, fk_Voo_numero_voo=1111)
+    criar_registro(session, BilheteVoo, numero_bilhete=1014, classe="Executiva", nome_passageiro="Gustavo Barros", status="Cancelado", fk_Passageiro_codigo_passageiro=20, fk_Voo_numero_voo=1212)
+    criar_registro(session, BilheteVoo, numero_bilhete=1015, classe="Primeira Classe", nome_passageiro="Larissa Costa", status="Confirmado", fk_Passageiro_codigo_passageiro=21, fk_Voo_numero_voo=808)
+    criar_registro(session, BilheteVoo, numero_bilhete=1016, classe="Economica", nome_passageiro="Victor Santos", status="Pendente", fk_Passageiro_codigo_passageiro=22, fk_Voo_numero_voo=909)
+
     # Inserir dados na tabela PortaoEmbarque
     criar_registro(session, PortaoEmbarque, codigo_portao="A1", localizacao="Terminal 1", status="Disponível")
     criar_registro(session, PortaoEmbarque, codigo_portao="B2", localizacao="Terminal 2", status="Ocupado")
     criar_registro(session, PortaoEmbarque, codigo_portao="C3", localizacao="Terminal 3", status="Disponível")
     criar_registro(session, PortaoEmbarque, codigo_portao="D4", localizacao="Terminal 4", status="Ocupado")
     criar_registro(session, PortaoEmbarque, codigo_portao="E5", localizacao="Terminal 5", status="Disponível")
+    criar_registro(session, PortaoEmbarque, codigo_portao="F6", localizacao="Terminal 6", status="Disponível")
+    criar_registro(session, PortaoEmbarque, codigo_portao="G7", localizacao="Terminal 7", status="Ocupado")
+    criar_registro(session, PortaoEmbarque, codigo_portao="H8", localizacao="Terminal 8", status="Manutenção")
+    criar_registro(session, PortaoEmbarque, codigo_portao="I9", localizacao="Terminal 9", status="Disponível")
+    criar_registro(session, PortaoEmbarque, codigo_portao="J10", localizacao="Terminal 10", status="Ocupado")
+
     
     # Inserir dados na tabela Tripulante
     criar_registro(session, Tripulante, id_funcionario=100, nome="Carlos Santos", cargo="Piloto", setor="Operações")
@@ -303,6 +358,13 @@ def carregar_dados_iniciais():
     criar_registro(session, Tripulante, id_funcionario=102, nome="Miguel Fernandes", cargo="Piloto", setor="Operações")
     criar_registro(session, Tripulante, id_funcionario=103, nome="Sofia Gomes", cargo="Comissário", setor="Atendimento")
     criar_registro(session, Tripulante, id_funcionario=104, nome="Mariana Silva", cargo="Piloto", setor="Operações")
+    criar_registro(session, Tripulante, id_funcionario=105, nome="Thiago Ribeiro", cargo="Piloto", setor="Operações")
+    criar_registro(session, Tripulante, id_funcionario=106, nome="Renata Carvalho", cargo="Comissária", setor="Atendimento")
+    criar_registro(session, Tripulante, id_funcionario=107, nome="Gabriel Nunes", cargo="Piloto", setor="Operações")
+    criar_registro(session, Tripulante, id_funcionario=108, nome="Camila Martins", cargo="Comissária", setor="Atendimento")
+    criar_registro(session, Tripulante, id_funcionario=109, nome="André Gonçalves", cargo="Mecânico", setor="Manutenção")
+    criar_registro(session, Tripulante, id_funcionario=110, nome="Júlia Amaral", cargo="Engenheira", setor="Manutenção")
+
     
     # Inserir dados na tabela Manutencao
     criar_registro(session, Manutencao, ID_Manutencao=1, Data="2023-01-10", Tipo="Preventiva")
@@ -310,6 +372,12 @@ def carregar_dados_iniciais():
     criar_registro(session, Manutencao, ID_Manutencao=3, Data="2023-03-20", Tipo="Preventiva")
     criar_registro(session, Manutencao, ID_Manutencao=4, Data="2023-04-15", Tipo="Corretiva")
     criar_registro(session, Manutencao, ID_Manutencao=5, Data="2023-05-10", Tipo="Preventiva")
+    criar_registro(session, Manutencao, ID_Manutencao=6, Data="2023-06-15", Tipo="Preventiva")
+    criar_registro(session, Manutencao, ID_Manutencao=7, Data="2023-07-20", Tipo="Corretiva")
+    criar_registro(session, Manutencao, ID_Manutencao=8, Data="2023-08-25", Tipo="Preventiva")
+    criar_registro(session, Manutencao, ID_Manutencao=9, Data="2023-09-30", Tipo="Corretiva")
+    criar_registro(session, Manutencao, ID_Manutencao=10, Data="2023-10-05", Tipo="Preventiva")
+
 
     # Link tripulantes to voos through operaciona_table
     from sqlalchemy import insert
