@@ -512,12 +512,13 @@ def consulta_01():
 
     for numero_voo, num_passageiros in resultado:
         print(f"Voo {numero_voo} tem {num_passageiros} passageiros.")
-        
-    gemini_interpretacao(resultado)
+    
+    print("Resposta da LLM: ")  
+    gemini_interpretacao(resultado, titulo_consulta="Número de Passageiros por Voo")
     # Gerar gráfico
     voos = [r[0] for r in resultado]
     passageiros = [r[1] for r in resultado]
-    plt.bar(voos, passageiros, color='blue')
+    plt.bar(voos, passageiros, color='blue',width=7)
     plt.xlabel('Número do Voo')
     plt.ylabel('Número de Passageiros')
     plt.title('Número de Passageiros por Voo')
@@ -538,7 +539,8 @@ def consulta_02():
     for nome_empresa, capacidade_media in resultado:
         print(f"Empresa: {nome_empresa}, Capacidade Média: {capacidade_media:.2f}")
 
-    gemini_interpretacao(resultado)
+    print("Resposta da LLM: ")
+    gemini_interpretacao(resultado, titulo_consulta="Capacidade Média das Aeronaves por Empresa Aérea")
     
     # Gerar gráfico
     empresas = [r[0] for r in resultado]
@@ -567,7 +569,8 @@ def consulta_03():
     for destino, num_voos in resultado:
         print(f"Destino: {destino}, Número de Voos: {num_voos}")
 
-    gemini_interpretacao(resultado)
+    print("Resposta da LLM: ")
+    gemini_interpretacao(resultado, titulo_consulta="Número Total de Voos por Destino")
     # Gerar gráfico
     destinos = [r[0] for r in resultado]
     num_voos = [r[1] for r in resultado]
@@ -665,7 +668,7 @@ def local_llm_interpretacao(user_message):
         temperature=0.7
     ).choices[0].message.content)
 
-def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
+def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002",titulo_consulta=" "):
     
     load_dotenv()
 
@@ -698,7 +701,7 @@ def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
             },
             {
                 "role": "user",
-                "content": f"Aqui está o resultado de uma consulta no banco de dados 'aeroporto':\n```json\n{json_result}\n```\nExplique o significado desta consulta e forneça insights acionáveis."
+                "content": f"Aqui está o resultado de uma consulta no banco de dados 'aeroporto' {titulo_consulta} :\n```json\n{json_result}\n```\nExplique o significado desta consulta e forneça insights acionáveis."
             }
         ]
     )

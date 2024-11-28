@@ -184,8 +184,9 @@ def consulta_01():
     for numero_voo, num_passageiros in resultado:
         print(f"Voo {numero_voo} tem {num_passageiros} passageiros.")
     
-    print(resultado)  
-    gemini_interpretacao(resultado)
+    #print(resultado)
+    print("Resposta da LLM: ")  
+    gemini_interpretacao(resultado,titulo_consulta="Número de Passageiros por Voo")
     # Gerar gráfico
     voos = [r[0] for r in resultado]
     passageiros = [r[1] for r in resultado]
@@ -211,7 +212,8 @@ def consulta_02():
         print(f"Empresa: {nome_empresa}, Capacidade Média: {capacidade_media:.2f}")
 
     #print(resultado)
-    gemini_interpretacao(resultado)
+    print("Resposta da LLM: ")
+    gemini_interpretacao(resultado,titulo_consulta="Capacidade Média das Aeronaves por Empresa Aérea")
     
     # Gerar gráfico
     empresas = [r[0] for r in resultado]
@@ -240,7 +242,8 @@ def consulta_03():
     for destino, num_voos in resultado:
         print(f"Destino: {destino}, Número de Voos: {num_voos}")
 
-    gemini_interpretacao(resultado)
+    print("Resposta da LLM: ")
+    gemini_interpretacao(resultado,titulo_consulta="Número Total de Voos por Destino")
     # Gerar gráfico
     destinos = [r[0] for r in resultado]
     num_voos = [r[1] for r in resultado]
@@ -286,6 +289,7 @@ def consulta_extra():
 
     # Passar o resultado serializável para o LLM
 
+    print("Resposta da LLM: ")
     local_llm_interpretacao(json.dumps(resultado_serializavel))
     #gemini_interpretacao(resultado)
     # Gerar gráfico

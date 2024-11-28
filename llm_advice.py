@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 import json
 
-def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
+def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002",titulo_consulta=" "):
     
     load_dotenv()
 
@@ -16,14 +16,16 @@ def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
     schema_description = """
     O banco de dados 'aeroporto' contém informações sobre voos, passageiros, aeronaves, empresas aéreas, etc.
     As tabelas incluem: passageiro, bilhete_voo, voo, aeronave, empresa_aerea, portao_embarque, area_bagagem, tripulantes, destinos e manutencao.  
-    Elas se relacionam por meio de chaves estrangeiras. Por exemplo, 'bilhete_voo' se relaciona com 'passageiro' e 'voo'.
+    Elas se relacionam por meio de chaves estrangeiras. Por exemplo, 'bilhete_voo' se relaciona com 'passageiro' e 'voo'
+    Existe tambem a capacidade média de cada aeronave.
     """
     # Converter o resultado da consulta para JSON para facilitar o processamento pelo modelo
     json_result = json.dumps(consulta_resultado, indent=4, default=str)  # default=str para lidar com tipos de dados do SQLAlchemy
 
     response = client.chat.completions.create(
         model="gemini-1.5-flash-002",
-        #model="gemini-1.5-pro-002",
+        #model="gemini-1.5-flash",
+        #model="gemini-1.5-pro",
         n=1,
         messages=[
             {
@@ -36,7 +38,7 @@ def gemini_interpretacao(consulta_resultado, model_name="gemini-1.5-flash-002"):
             },
             {
                 "role": "user",
-                "content": f"Aqui está o resultado de uma consulta no banco de dados 'aeroporto':\n```json\n{json_result}\n```\nExplique o significado desta consulta e forneça insights acionáveis."
+                "content": f"Aqui está o resultado de uma consulta no banco de dados 'aeroporto' {titulo_consulta}:\n```json\n{json_result}\n```\nExplique o significado desta consulta e forneça insights acionáveis."
             }
         ]
     )
