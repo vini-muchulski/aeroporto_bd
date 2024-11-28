@@ -513,7 +513,7 @@ def consulta_01():
     for numero_voo, num_passageiros in resultado:
         print(f"Voo {numero_voo} tem {num_passageiros} passageiros.")
         
-    #gemini_interpretacao(resultado)
+    gemini_interpretacao(resultado)
     # Gerar gráfico
     voos = [r[0] for r in resultado]
     passageiros = [r[1] for r in resultado]
