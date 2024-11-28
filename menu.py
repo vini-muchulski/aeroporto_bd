@@ -10,6 +10,22 @@ from data_loader import carregar_dados_iniciais
 from llm_advice import gemini_interpretacao, local_llm_interpretacao
 ##########################################
 
+"""
+pip install psycopg2
+
+Certifique-se de que o banco aeroporto já foi criado antes de conceder os privilégios:
+CREATE DATABASE aeroporto;
+
+
+CREATE USER vini WITH PASSWORD '123';
+GRANT ALL PRIVILEGES ON DATABASE aeroporto TO vini;
+
+GRANT USAGE ON SCHEMA public TO vini;
+GRANT CREATE ON SCHEMA public TO vini;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO vini;
+
+
+"""
 
 
 def imprimir_dados():
