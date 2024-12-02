@@ -56,7 +56,7 @@ def local_llm_interpretacao(user_message):
                 "As tabelas incluem: passageiro, bilhete_voo, voo, aeronave, empresa_aerea, portao_embarque, area_bagagem, tripulantes, destinos e manutencao. "
                 "Essas tabelas se relacionam por meio de chaves estrangeiras, como 'bilhete_voo' que se conecta com 'passageiro' e 'voo'. "
                 "Seu trabalho é fornecer explicações claras e úteis em português sobre consultas SQL e seus resultados, destacando insights acionáveis "
-                "que ajudem na tomada de decisões. Responda de forma concisa, clara e sem formatação especial."
+                "que ajudem na tomada de decisões. Responda de forma concisa, clara e sem formatação especial. Gere uma analise do resultado da consulta."
             )},
         
         {"role": "user", "content": user_message}
